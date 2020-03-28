@@ -4,8 +4,11 @@ AFRAME.registerComponent('texture-painter', {
 
         this.el.sceneEl.addEventListener('camera-set-active', this.cameraSetActive.bind(this));
         this.el.sceneEl.addEventListener( 'mousemove', this.onMouseMove.bind(this), false );
+        this.el.sceneEl.addEventListener( 'touchmove', this.onMouseMove.bind(this), false );
         this.el.sceneEl.addEventListener( 'mouseup', this.onMouseUp.bind(this), false );
+        this.el.sceneEl.addEventListener( 'touchend', this.onMouseUp.bind(this), false );
         this.el.sceneEl.addEventListener( 'mousedown', this.onMouseDown.bind(this), false );
+        this.el.sceneEl.addEventListener( 'touchstart', this.onMouseDown.bind(this), false );
 
         this.el.addEventListener('raycaster-intersected', evt => {
             this.raycasterObj = evt.detail.el;
@@ -112,7 +115,7 @@ AFRAME.registerComponent('texture-painter', {
 
         evt.preventDefault();
 
-        var array = this.getMousePosition( this.renderer.domElement, evt.clientX, evt.clientY );
+        var array = this.getMousePosition( this.renderer.domElement, evt.clientX || evt.touches[0].clientX, evt.clientY || evt.touches[0].clientY );
         this.onClickPosition.fromArray( array );
 
         var intersects = this.getIntersects( this.onClickPosition, [this.el.getObject3D('mesh')] );
@@ -126,9 +129,9 @@ AFRAME.registerComponent('texture-painter', {
 
     },
     onMouseDown: function(evt) {
-        evt.preventDefault();
+        //evt.preventDefault();
 
-        var array = this.getMousePosition( this.renderer.domElement, evt.clientX, evt.clientY );
+        var array = this.getMousePosition( this.renderer.domElement, evt.clientX || evt.touches[0].clientX, evt.clientY || evt.touches[0].clientY );
         this.onClickPosition.fromArray( array );
 
         var intersects = this.getIntersects( this.onClickPosition, [this.el.getObject3D('mesh')] );
@@ -144,7 +147,7 @@ AFRAME.registerComponent('texture-painter', {
         }
     },
     onMouseUp: function (evt) {
-        evt.preventDefault();
+        //evt.preventDefault();
         this.lastX = null;
         this.lastY = null;
     },
