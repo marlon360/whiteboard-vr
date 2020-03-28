@@ -4,12 +4,13 @@
   </head>
   <body>
     <a-scene>
-      <a-plane geometry="buffer: false" texture-painter position="-1 0.5 -3" color="#4CC3D9"></a-plane>
-      <a-sphere geometry="buffer: false" texture-painter position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder geometry="buffer: false" texture-painter position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+      <a-plane class="board" geometry="buffer: false" texture-painter position="0 1 -0.6" color="#4CC3D9"></a-plane>
+      <a-plane class="board" position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
       <a-sky color="#ECECEC"></a-sky>
       <a-entity camera look-controls="enabled: false" position="0 1.6 0"></a-entity>
+
+      <a-entity class="controller" laser-controls="hand: left" raycaster="objects: .board; far: 0.2" line="color: #000000"></a-entity>
+      <a-entity class="controller" laser-controls="hand: right" raycaster="objects: .board; far: 0.2" line="color: #000000"></a-entity>
     </a-scene>
   </body>
 </html>

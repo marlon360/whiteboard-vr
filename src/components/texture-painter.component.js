@@ -7,6 +7,26 @@ AFRAME.registerComponent('texture-painter', {
         this.el.sceneEl.addEventListener( 'mouseup', this.onMouseUp.bind(this), false );
         this.el.sceneEl.addEventListener( 'mousedown', this.onMouseDown.bind(this), false );
 
+        this.el.addEventListener('raycaster-intersected', evt => {
+            this.raycasterObj = evt.detail.el;
+        });
+        this.el.addEventListener('raycaster-intersected-cleared', evt => {
+            this.lastX = null;
+            this.lastY = null;
+            this.raycasterObj = null;
+        });
+
+        var controllers = document.querySelectorAll(".controller");
+        controllers.forEach((controller) => {
+            controller.addEventListener('triggerdown', evt => {
+                this.triggerdown = true;
+            });
+            controller.addEventListener('triggerup', evt => {
+                this.triggerdown = false;
+            });
+        })
+        
+
         planeTexture = new THREE.Texture( undefined, THREE.UVMapping, THREE.MirroredRepeatWrapping, THREE.MirroredRepeatWrapping );
         var planeMaterial = new THREE.MeshBasicMaterial( { map: planeTexture } );
         this.mesh = this.el.getObject3D('mesh');
@@ -43,9 +63,26 @@ AFRAME.registerComponent('texture-painter', {
     
         }.bind(this), false );
         this._background.crossOrigin = '';
-        this._background.src = require("./UV_Grid_Sm.jpg").default;
+        this._background.src = require("./board_bg.png").default;
     
         
+    },
+    tick: function () {
+        if (!this.raycasterObj) { return; }  // Not intersecting.
+    
+        let intersection = this.raycasterObj.components.raycaster.getIntersection(this.el);
+        if (!intersection) { return; }
+        if (this.triggerdown) {
+            var uv = intersection.uv;
+            var x = uv.x;
+            var y = 1 - uv.y;
+            this._draw( x * this._canvas.width, y * this._canvas.height);
+            this.lastX = x * this._canvas.width;
+            this.lastY = y * this._canvas.height;
+        } else {
+            this.lastX = null;
+            this.lastY = null;
+        }
     },
     cameraSetActive: function() {
         this.camera = this.el.sceneEl.camera;
@@ -55,7 +92,7 @@ AFRAME.registerComponent('texture-painter', {
         if (this.lastX != null && this.lastY != null) {
 
             this._context2D.beginPath();
-            this._context2D.strokeStyle = "rgba(255,255,255,0.9)";
+            this._context2D.strokeStyle = "rgba(0,0,0,0.9)";
             this._context2D.lineJoin = 'round';
             this._context2D.lineWidth = 10;
             this._context2D.moveTo(this.lastX, this.lastY);
