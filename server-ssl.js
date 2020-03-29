@@ -1,5 +1,6 @@
 
 const express = require('express');
+const port = process.env.PORT || 3000
 const app = express();
 const fs = require('fs');
 const http = require('https').createServer({
@@ -22,6 +23,6 @@ io.on('connection', (socket) => {
   });
 });
 
-http.listen(3000, () => {
+http.listen(port, () => {
   console.log('server running at :3000');
 });
