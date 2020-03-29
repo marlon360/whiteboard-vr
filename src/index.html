@@ -6,7 +6,9 @@
     <a-scene shadow="type: pcfsoft" renderer="antialias: true">
       <a-entity environment="groundTexture: none; grid: 1x1; gridColor: #111"></a-entity>
 
-      <a-plane class="board" geometry="buffer: false" texture-painter position="0 1 -0.6" color="#4CC3D9"></a-plane>
+      <a-plane id="board" width="1.5" class="board" geometry="buffer: false" texture-painter position="0 1 -0.6" color="#4CC3D9"></a-plane>
+
+      <a-light type="directional" position="0 1.5 3" rotation="-45 0 0" intensity="0.4"></a-light>
 
       <a-entity camera look-controls="enabled: false" position="0 1 0.1"></a-entity>
 

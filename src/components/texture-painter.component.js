@@ -35,7 +35,7 @@ AFRAME.registerComponent('texture-painter', {
         
 
         var planeTexture = new THREE.Texture( undefined, THREE.UVMapping, THREE.MirroredRepeatWrapping, THREE.MirroredRepeatWrapping );
-        var planeMaterial = new THREE.MeshBasicMaterial( { map: planeTexture } );
+        var planeMaterial = new THREE.MeshPhongMaterial( { map: planeTexture, shininess: 50 } );
         this.mesh = this.el.getObject3D('mesh');
         this.mesh.material = planeMaterial;
 
@@ -57,15 +57,17 @@ AFRAME.registerComponent('texture-painter', {
         this._background = document.createElement( "img" );
         this._background.addEventListener( "load", function () {
     
-            this._canvas.width = this._background.naturalWidth;
-            this._canvas.height = this._background.naturalHeight;
+            this._canvas.width = 1024 * 1.5;
+            this._canvas.height = 1024;
     
             if ( ! this._context2D ) return;
         
             this._context2D.clearRect( 0, 0, this._canvas.width, this._canvas.height );
 
             // Background.
-            this._context2D.drawImage( this._background, 0, 0 );
+            var ptrn = this._context2D.createPattern(this._background, 'repeat'); // Create a pattern with this image, and set it to "repeat".
+            this._context2D.fillStyle = ptrn;
+            this._context2D.fillRect(0, 0, this._canvas.width, this._canvas.height); 
             this.parentTexture.needsUpdate = true;
     
         }.bind(this), false );
