@@ -7,6 +7,7 @@ AFRAME.registerComponent('texture-painter', {
     init: function () {
 
         this.id = Math.floor(Math.random() * 100000000);
+        this.color = "#000000";
 
         this.el.sceneEl.addEventListener('camera-set-active', this.cameraSetActive.bind(this));
         this.el.sceneEl.addEventListener( 'mousemove', this.onMouseMove.bind(this), false );
@@ -85,9 +86,10 @@ AFRAME.registerComponent('texture-painter', {
     },
     drawRemote: function(remoteDrawObject) {
         if (remoteDrawObject.lastX != null && remoteDrawObject.lastY != null) {
-
+            console.log(remoteDrawObject.color);
+            
             this._context2D.beginPath();
-            this._context2D.strokeStyle = "rgba(0,0,0,0.9)";
+            this._context2D.strokeStyle = remoteDrawObject.color;
             this._context2D.lineJoin = 'round';
             this._context2D.lineWidth = 10;
             this._context2D.moveTo(remoteDrawObject.lastX, remoteDrawObject.lastY);
@@ -104,6 +106,7 @@ AFRAME.registerComponent('texture-painter', {
         let intersection = this.raycasterObj.components.raycaster.getIntersection(this.el);
         if (!intersection) { return; }
         if (this.triggerdown) {
+            this.color = this.raycasterObj.getAttribute('line').color;
             var uv = intersection.uv;
             var x = uv.x;
             var y = 1 - uv.y;
@@ -126,6 +129,7 @@ AFRAME.registerComponent('texture-painter', {
             drawObject.lastY = this.lastY;
             drawObject.x = x;
             drawObject.y = y;
+            drawObject.color = this.color;
             socket.emit('draw', drawObject);
             this.drawRemote(drawObject);
             this.lastX = x;
