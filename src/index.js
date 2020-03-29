@@ -56,9 +56,7 @@ function drawRemote(remoteDrawObject) {
 }
 
 function draw (x, y) {
-    if (lastX != null && lastY != null) {
-        console.log({x,y});
-        
+    if (lastX != null && lastY != null) {        
         var drawObject= {};
         drawObject.id = id;
         drawObject.lastX = lastX;
@@ -96,6 +94,37 @@ function onMouseUp (evt) {
     lastX = null;
     lastY = null;
 }
+
+canvas.addEventListener('touchstart', function (evt) {
+    evt.preventDefault();
+
+    let scalingX = canvasWidth / canvas.clientWidth;
+    let scalingY = canvasHeight / canvas.clientHeight;
+
+    lastX = (evt.targetTouches[0].pageX - canvas.offsetLeft) * scalingX;
+    lastY = (evt.targetTouches[0].pageY - canvas.offsetTop) * scalingY;
+}, false);
+  
+  canvas.addEventListener('touchmove', function (evt) {
+    evt.preventDefault();
+    let scalingX = canvasWidth / canvas.clientWidth;
+    let scalingY = canvasHeight / canvas.clientHeight;
+
+    let x = (evt.targetTouches[0].pageX - canvas.offsetLeft) * scalingX;
+    let y = (evt.targetTouches[0].pageY - canvas.offsetTop) * scalingY;
+    draw(x,y);
+  }, true);
+  
+  canvas.addEventListener('touchend', function (evt) {
+    evt.preventDefault();
+    lastX = null;
+    lastY = null;
+  }, false);
+  
+  canvas.addEventListener('touchcancel', function () {
+    lastX = null;
+    lastY = null;
+  });
 
 window.addEventListener('resize', evt => {
     canvas.style.width = "100%";
