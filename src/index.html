@@ -6,11 +6,16 @@
     <a-scene shadow="type: pcfsoft" renderer="antialias: true">
       <a-entity environment="groundTexture: none; grid: 1x1; gridColor: #111"></a-entity>
 
+      <a-box material="color: blue; color: #FFF; roughness: 0.4; metalness: 0.3" position="-0.8 1 -0.62" scale="0.1 1 0.05"></a-box>
+      <a-box material="color: blue; color: #FFF; roughness: 0.4; metalness: 0.3" position="0.8 1 -0.62" scale="0.1 1 0.05"></a-box>
+      <a-box material="color: blue; color: #FFF; roughness: 0.4; metalness: 0.3" position="0 1.525 -0.62" scale="1.7 0.05 0.05"></a-box>
+      <a-box material="color: blue; color: #CCC; roughness: 0.4; metalness: 0.3" position="0 0.5 -0.55" scale="1.7 0.02 0.1"></a-box>
+
       <a-plane id="board" width="1.5" class="board" geometry="buffer: false" texture-painter position="0 1 -0.6" color="#4CC3D9"></a-plane>
 
       <a-light type="directional" position="0 1.5 3" rotation="-45 0 0" intensity="0.4"></a-light>
 
-      <a-entity camera look-controls="enabled: false" position="0 1 0.1"></a-entity>
+      <a-entity camera wasd-controls look-controls="enabled: false" position="0 1 0.1"></a-entity>
 
       <a-entity class="controller" laser-controls="hand: left" raycaster="objects: .board; far: 0.2" line="color: #000000"></a-entity>
       <a-entity class="controller" laser-controls="hand: right" raycaster="objects: .board; far: 0.2" line="color: #000000"></a-entity>
