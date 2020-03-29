@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "npm run build && node server.js",
+    "start": "node server.js",
     "start:ssl": "npm run build && node server-ssl.js",
     "dev": "webpack-dev-server --config webpack.dev.config.js --open",
     "build": "webpack --config webpack.prod.config.js",
