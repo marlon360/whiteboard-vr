@@ -9,9 +9,12 @@ module.exports = merge(common, {
   },
   mode: "development",
   devtool: "none",
-  entry: "./src/index.js",
+  entry: {
+    desktop: "./src/index.js",
+    vr: "./src/vr.js"
+  },
   output: {
-    filename: "bundle.js",
+    filename: "[name].bundle.js",
     path: path.resolve(__dirname, "dist")
   },
   devServer: {
@@ -23,8 +26,15 @@ module.exports = merge(common, {
     }
   },
   plugins: [new HtmlWebpackPlugin({
+    chunks: ['desktop'],
     template: "./src/index.html",
     filename: "index.html",
+    inject: 'body'
+  }),
+  new HtmlWebpackPlugin({
+    chunks: ['vr'],
+    template: "./src/vr.html",
+    filename: "vr.html",
     inject: 'head'
   })]
 });

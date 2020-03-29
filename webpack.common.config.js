@@ -17,7 +17,11 @@ module.exports = {
             outputPath: "imgs"
           }
         }
-      }
+      },
+      {
+        test: /\.css$/i,
+        use: ['file-loader'],
+      },
     ]
   }
 }
