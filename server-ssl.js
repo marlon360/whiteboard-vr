@@ -2,7 +2,11 @@
 const express = require('express');
 const app = express();
 const fs = require('fs');
-const http = require('http').Server(app);
+const http = require('https').createServer({
+    key: fs.readFileSync('./key.pem'),
+    cert: fs.readFileSync('./cert.pem'),
+    passphrase: 'marlon'
+}, app);
 const io = require('socket.io')(http);
 
 app.use(express.static('dist'));

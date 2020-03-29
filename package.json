@@ -4,7 +4,9 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "webpack-dev-server --config webpack.dev.config.js --open",
+    "start": "npm run build && node server.js",
+    "start:ssl": "npm run build && node server-ssl.js",
+    "dev": "webpack-dev-server --config webpack.dev.config.js --open",
     "build": "webpack --config webpack.prod.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -26,5 +28,8 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
     "webpack-merge": "^4.2.2"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }
