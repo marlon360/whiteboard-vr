@@ -3,3 +3,27 @@ canvas {
     width: 100%;
     display: block;
 }
+
+a#vr-button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: white;
+    padding: 0.4em 0.7em;
+    font-size: 18px;
+    color: gray;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: sans-serif;
+    border: solid gray 4px;
+    border-radius: 10px;
+    text-align: center;
+}
+a#vr-button:hover {
+    border: solid orange 4px;
+    color: orange;
+}
+body{
+    padding: 0;
+    margin: 0;
+}

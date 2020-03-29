@@ -126,6 +126,13 @@ canvas.addEventListener('touchstart', function (evt) {
     lastY = null;
   });
 
+
+const colorPicker = document.querySelector("#color-picker");
+
+colorPicker.addEventListener("change", (evt) => {
+    color = evt.target.value;
+}, false);
+
 window.addEventListener('resize', evt => {
     canvas.style.width = "100%";
     const height = canvas.clientWidth / 1.5;
