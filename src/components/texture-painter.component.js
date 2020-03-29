@@ -3,11 +3,16 @@ import io from 'socket.io-client';
 const socket = io();
 
 AFRAME.registerComponent('texture-painter', {
-    schema: {},
+    schema: {
+        color: {
+            type: "color",
+            default: "black"
+        }
+    },
     init: function () {
 
         this.id = Math.floor(Math.random() * 100000000);
-        this.color = "#000000";
+        this.color = this.data.color;
 
         this.el.sceneEl.addEventListener('camera-set-active', this.cameraSetActive.bind(this));
         this.el.sceneEl.addEventListener( 'mousemove', this.onMouseMove.bind(this), false );
@@ -85,13 +90,11 @@ AFRAME.registerComponent('texture-painter', {
 
     },
     drawRemote: function(remoteDrawObject) {
-        if (remoteDrawObject.lastX != null && remoteDrawObject.lastY != null) {
-            console.log(remoteDrawObject.color);
-            
+        if (remoteDrawObject.lastX != null && remoteDrawObject.lastY != null) {            
             this._context2D.beginPath();
             this._context2D.strokeStyle = remoteDrawObject.color;
             this._context2D.lineJoin = 'round';
-            this._context2D.lineWidth = 10;
+            this._context2D.lineWidth = 20;
             this._context2D.moveTo(remoteDrawObject.lastX, remoteDrawObject.lastY);
             this._context2D.lineTo(remoteDrawObject.x, remoteDrawObject.y);
             this._context2D.closePath();
@@ -100,13 +103,15 @@ AFRAME.registerComponent('texture-painter', {
             this.parentTexture.needsUpdate = true;
         }
     },
+    update: function() {
+        this.color = this.data.color;
+    },
     tick: function () {
         if (!this.raycasterObj) { return; }  // Not intersecting.
     
         let intersection = this.raycasterObj.components.raycaster.getIntersection(this.el);
         if (!intersection) { return; }
         if (this.triggerdown) {
-            this.color = this.raycasterObj.getAttribute('line').color;
             var uv = intersection.uv;
             var x = uv.x;
             var y = 1 - uv.y;
