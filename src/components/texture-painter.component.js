@@ -1,3 +1,7 @@
+import io from 'socket.io-client';
+ 
+const socket = io();
+
 AFRAME.registerComponent('texture-painter', {
     schema: {},
     init: function () {
@@ -30,7 +34,7 @@ AFRAME.registerComponent('texture-painter', {
         })
         
 
-        planeTexture = new THREE.Texture( undefined, THREE.UVMapping, THREE.MirroredRepeatWrapping, THREE.MirroredRepeatWrapping );
+        var planeTexture = new THREE.Texture( undefined, THREE.UVMapping, THREE.MirroredRepeatWrapping, THREE.MirroredRepeatWrapping );
         var planeMaterial = new THREE.MeshBasicMaterial( { map: planeTexture } );
         this.mesh = this.el.getObject3D('mesh');
         this.mesh.material = planeMaterial;
@@ -68,7 +72,22 @@ AFRAME.registerComponent('texture-painter', {
         this._background.crossOrigin = '';
         this._background.src = require("./board_bg.png").default;
     
-        
+        socket.on('remoteDraw', (remoteDrawObject) => {
+            if (remoteDrawObject.lastX != null && remoteDrawObject.lastY != null) {
+
+                this._context2D.beginPath();
+                this._context2D.strokeStyle = "rgba(0,0,0,0.9)";
+                this._context2D.lineJoin = 'round';
+                this._context2D.lineWidth = 10;
+                this._context2D.moveTo(remoteDrawObject.lastX, remoteDrawObject.lastY);
+                this._context2D.lineTo(remoteDrawObject.x, remoteDrawObject.y);
+                this._context2D.closePath();
+                this._context2D.stroke();
+                
+                this.parentTexture.needsUpdate = true;
+            }
+        });
+
     },
     tick: function () {
         if (!this.raycasterObj) { return; }  // Not intersecting.
@@ -91,25 +110,17 @@ AFRAME.registerComponent('texture-painter', {
         this.camera = this.el.sceneEl.camera;
     },
     _draw: function (x, y) {
-        
         if (this.lastX != null && this.lastY != null) {
-
-            this._context2D.beginPath();
-            this._context2D.strokeStyle = "rgba(0,0,0,0.9)";
-            this._context2D.lineJoin = 'round';
-            this._context2D.lineWidth = 10;
-            this._context2D.moveTo(this.lastX, this.lastY);
-            this._context2D.lineTo(x, y);
-            this._context2D.closePath();
-            this._context2D.stroke();
-            
-            this.parentTexture.needsUpdate = true;
+            var drawObject= {};
+            drawObject.lastX = this.lastX;
+            drawObject.lastY = this.lastY;
+            drawObject.x = x;
+            drawObject.y = y;
+            socket.emit('draw', drawObject);
             this.lastX = x;
             this.lastY = y;
         }
-            
     },
-
 
     onMouseMove: function ( evt ) {
 
