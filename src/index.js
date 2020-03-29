@@ -6,6 +6,7 @@ let id = Math.floor(Math.random() * 100000000);
 let lastX = null;
 let lastY = null;
 let color = "#000000";
+let size = 10;
 
 const canvasWidth = 1500;
 const canvasHeight = 1000;
@@ -46,7 +47,7 @@ function drawRemote(remoteDrawObject) {
         context2D.beginPath();
         context2D.strokeStyle = remoteDrawObject.color;
         context2D.lineJoin = 'round';
-        context2D.lineWidth = 10;
+        context2D.lineWidth = size;
         context2D.moveTo(remoteDrawObject.lastX, remoteDrawObject.lastY);
         context2D.lineTo(remoteDrawObject.x, remoteDrawObject.y);
         context2D.closePath();
@@ -131,6 +132,12 @@ const colorPicker = document.querySelector("#color-picker");
 
 colorPicker.addEventListener("change", (evt) => {
     color = evt.target.value;
+}, false);
+
+const brushSize = document.querySelector("#brush-size");
+
+brushSize.addEventListener("change", (evt) => {
+    size = evt.target.value;
 }, false);
 
 window.addEventListener('resize', evt => {
