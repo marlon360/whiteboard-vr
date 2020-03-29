@@ -6,6 +6,8 @@ AFRAME.registerComponent('texture-painter', {
     schema: {},
     init: function () {
 
+        this.id = Math.floor(Math.random() * 100000000);
+
         this.el.sceneEl.addEventListener('camera-set-active', this.cameraSetActive.bind(this));
         this.el.sceneEl.addEventListener( 'mousemove', this.onMouseMove.bind(this), false );
         this.el.sceneEl.addEventListener( 'touchmove', this.onMouseMove.bind(this), false );
@@ -75,21 +77,26 @@ AFRAME.registerComponent('texture-painter', {
         this._background.src = require("./whiteboard_pattern.jpg").default;
     
         socket.on('remoteDraw', (remoteDrawObject) => {
-            if (remoteDrawObject.lastX != null && remoteDrawObject.lastY != null) {
-
-                this._context2D.beginPath();
-                this._context2D.strokeStyle = "rgba(0,0,0,0.9)";
-                this._context2D.lineJoin = 'round';
-                this._context2D.lineWidth = 10;
-                this._context2D.moveTo(remoteDrawObject.lastX, remoteDrawObject.lastY);
-                this._context2D.lineTo(remoteDrawObject.x, remoteDrawObject.y);
-                this._context2D.closePath();
-                this._context2D.stroke();
-                
-                this.parentTexture.needsUpdate = true;
+            if (remoteDrawObject.id != this.id) {
+                this.drawRemote(remoteDrawObject);
             }
         });
 
+    },
+    drawRemote: function(remoteDrawObject) {
+        if (remoteDrawObject.lastX != null && remoteDrawObject.lastY != null) {
+
+            this._context2D.beginPath();
+            this._context2D.strokeStyle = "rgba(0,0,0,0.9)";
+            this._context2D.lineJoin = 'round';
+            this._context2D.lineWidth = 10;
+            this._context2D.moveTo(remoteDrawObject.lastX, remoteDrawObject.lastY);
+            this._context2D.lineTo(remoteDrawObject.x, remoteDrawObject.y);
+            this._context2D.closePath();
+            this._context2D.stroke();
+            
+            this.parentTexture.needsUpdate = true;
+        }
     },
     tick: function () {
         if (!this.raycasterObj) { return; }  // Not intersecting.
@@ -114,11 +121,13 @@ AFRAME.registerComponent('texture-painter', {
     _draw: function (x, y) {
         if (this.lastX != null && this.lastY != null) {
             var drawObject= {};
+            drawObject.id = this.id;
             drawObject.lastX = this.lastX;
             drawObject.lastY = this.lastY;
             drawObject.x = x;
             drawObject.y = y;
             socket.emit('draw', drawObject);
+            this.drawRemote(drawObject);
             this.lastX = x;
             this.lastY = y;
         }
