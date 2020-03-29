@@ -57,8 +57,8 @@ AFRAME.registerComponent('texture-painter', {
         this._background = document.createElement( "img" );
         this._background.addEventListener( "load", function () {
     
-            this._canvas.width = 1024 * 1.5;
-            this._canvas.height = 1024;
+            this._canvas.width = 1000 * 1.5;
+            this._canvas.height = 1000;
     
             if ( ! this._context2D ) return;
         
@@ -72,7 +72,7 @@ AFRAME.registerComponent('texture-painter', {
     
         }.bind(this), false );
         this._background.crossOrigin = '';
-        this._background.src = require("./board_bg.png").default;
+        this._background.src = require("./whiteboard_pattern.jpg").default;
     
         socket.on('remoteDraw', (remoteDrawObject) => {
             if (remoteDrawObject.lastX != null && remoteDrawObject.lastY != null) {
