@@ -2,7 +2,7 @@ AFRAME.registerComponent('intersection-visual', {
     schema: {
         size: {
             type: "number",
-            default: 20
+            default: 10
         },
         color: {
             type: "color",

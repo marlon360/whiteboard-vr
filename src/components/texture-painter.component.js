@@ -94,7 +94,7 @@ AFRAME.registerComponent('texture-painter', {
             this._context2D.beginPath();
             this._context2D.strokeStyle = remoteDrawObject.color;
             this._context2D.lineJoin = 'round';
-            this._context2D.lineWidth = 20;
+            this._context2D.lineWidth = 10;
             this._context2D.moveTo(remoteDrawObject.lastX, remoteDrawObject.lastY);
             this._context2D.lineTo(remoteDrawObject.x, remoteDrawObject.y);
             this._context2D.closePath();
