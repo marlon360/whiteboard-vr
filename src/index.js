@@ -1,4 +1,23 @@
 import io from 'socket.io-client';
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+let room = getParameterByName('room');
+if (room != null) {
+    const vrButton = document.getElementById('vr-button');
+    vrButton.href = "vr.html?room="+room;
+} else {
+    room = Math.random().toString(36).substr(2, 5).toUpperCase();
+    window.location.href = "index.html?room="+room;
+}
  
 const socket = io();
 
@@ -43,6 +62,9 @@ canvas.addEventListener('mousedown', onMouseDown);
 canvas.addEventListener('mouseup', onMouseUp);
 
 function drawRemote(remoteDrawObject) {
+    if (room != remoteDrawObject.room) {
+        return;
+    }
     if (remoteDrawObject.lastX != null && remoteDrawObject.lastY != null) {            
         context2D.beginPath();
         context2D.strokeStyle = remoteDrawObject.color;
@@ -65,6 +87,7 @@ function draw (x, y) {
         drawObject.x = x;
         drawObject.y = y;
         drawObject.color = color;
+        drawObject.room = room;
         socket.emit('draw', drawObject);
         drawRemote(drawObject);
         lastX = x;
@@ -150,3 +173,5 @@ window.addEventListener('resize', evt => {
         canvas.style.height = canvas.clientWidth / 1.5 + "px";
     }
 })
+
+

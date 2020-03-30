@@ -1,5 +1,21 @@
 import io from 'socket.io-client';
- 
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+let room = getParameterByName('room');
+if (room == null) {
+    room = Math.random().toString(36).substr(2, 5).toUpperCase();
+    window.location.href = "vr.html?room="+room;
+}
+
 const socket = io();
 
 AFRAME.registerComponent('texture-painter', {
@@ -90,6 +106,9 @@ AFRAME.registerComponent('texture-painter', {
 
     },
     drawRemote: function(remoteDrawObject) {
+        if (room != remoteDrawObject.room) {
+            return;
+        }
         if (remoteDrawObject.lastX != null && remoteDrawObject.lastY != null) {            
             this._context2D.beginPath();
             this._context2D.strokeStyle = remoteDrawObject.color;
@@ -135,6 +154,7 @@ AFRAME.registerComponent('texture-painter', {
             drawObject.x = x;
             drawObject.y = y;
             drawObject.color = this.color;
+            drawObject.room = room;
             socket.emit('draw', drawObject);
             this.drawRemote(drawObject);
             this.lastX = x;
