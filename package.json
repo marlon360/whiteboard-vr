@@ -16,7 +16,9 @@
     "aframe": "^1.0.4",
     "aframe-environment-component": "^2.0.0",
     "express": "^4.17.1",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "three-text2d": "^0.6.0",
+    "three": "^0.111.0"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
