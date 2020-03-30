@@ -14,6 +14,8 @@ let room = getParameterByName('room');
 if (room != null) {
     const vrButton = document.getElementById('vr-button');
     vrButton.href = "vr.html?room="+room;
+    const roomNumber = document.getElementById('room-number');
+    roomNumber.textContent = room;
 } else {
     room = Math.random().toString(36).substr(2, 5).toUpperCase();
     window.location.href = "index.html?room="+room;
@@ -175,3 +177,13 @@ window.addEventListener('resize', evt => {
 })
 
 
+let joinRoom = document.getElementById('join-room');
+joinRoom.addEventListener('click', () => {
+    let enteredRoom = window.prompt("Room Code: ","");
+    if (enteredRoom == null || enteredRoom == "") {
+        // canceled
+      } else {
+        enteredRoom = enteredRoom.toUpperCase();
+        window.location.href = "index.html?room="+enteredRoom;
+      }
+})
