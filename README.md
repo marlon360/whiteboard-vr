@@ -10,7 +10,7 @@ A web-bassed online whiteboard which is platform independent. Use VR, Desktop or
 
 Video: [https://www.youtube.com/watch?v=YjOsA-EFc9I&feature=youtu.be](https://www.youtube.com/watch?v=YjOsA-EFc9I&feature=youtu.be)
 
-Try it yourself: [https://whiteboard-vr.herokuapp.com] (https://whiteboard-vr.herokuapp.com)
+Try it yourself: [https://whiteboard-vr.herokuapp.com](https://whiteboard-vr.herokuapp.com)
 
 ## How to run locally
 
