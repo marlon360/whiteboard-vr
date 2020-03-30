@@ -20,6 +20,38 @@ Try it yourself: [https://whiteboard-vr.herokuapp.com](https://whiteboard-vr.her
 4. Build project `npm run build`
 5. Start Webserver (with socket.io) `npm run start`
 
+## Technologies
+
+- A-Frame
+- Three.js
+- Socket.io
+
+## Features
+
+- draw in VR
+- pick color in VR
+- draw in 2D with touch or mouse
+- pick color in 2D
+- change brush size in 2D
+- rooms for separation of groups
+- join group with room code
+- realtime sync of drawing
+
+## Roadmap
+
+- send current draw state if a new user joins
+- change brush size in VR
+- redo
+- erase
+- audio chat
+- display number of people in a room
+- display user names
+- add images
+- save board
+- endless scrolling
+- permission system: just view/edit and view
+- add text box
+
 ## Project structure
 
 `index.html` for Desktop and Mobile View
