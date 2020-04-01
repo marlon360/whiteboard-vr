@@ -41,7 +41,7 @@ Try it yourself: [https://whiteboard-vr.herokuapp.com](https://whiteboard-vr.her
 
 - send current draw state if a new user joins
 - change brush size in VR
-- redo
+- undo/redo
 - erase
 - audio chat
 - display number of people in a room
@@ -49,8 +49,9 @@ Try it yourself: [https://whiteboard-vr.herokuapp.com](https://whiteboard-vr.her
 - add images
 - save board
 - endless scrolling
-- permission system: just view/edit and view
+- permission system: view/edit or view
 - add text box
+- Pen/Eraser hand models in VR
 
 ## Project structure
 
