@@ -29,6 +29,7 @@ AFRAME.registerComponent('texture-painter', {
 
         this.id = Math.floor(Math.random() * 100000000);
         this.color = this.data.color;
+        this.size = 10;
 
         this.el.sceneEl.addEventListener('camera-set-active', this.cameraSetActive.bind(this));
         this.el.sceneEl.addEventListener( 'mousemove', this.onMouseMove.bind(this), false );
@@ -113,7 +114,7 @@ AFRAME.registerComponent('texture-painter', {
             this._context2D.beginPath();
             this._context2D.strokeStyle = remoteDrawObject.color;
             this._context2D.lineJoin = 'round';
-            this._context2D.lineWidth = 10;
+            this._context2D.lineWidth = remoteDrawObject.size;
             this._context2D.moveTo(remoteDrawObject.lastX, remoteDrawObject.lastY);
             this._context2D.lineTo(remoteDrawObject.x, remoteDrawObject.y);
             this._context2D.closePath();
@@ -155,6 +156,7 @@ AFRAME.registerComponent('texture-painter', {
             drawObject.y = y;
             drawObject.color = this.color;
             drawObject.room = room;
+            drawObject.size = this.size;
             socket.emit('draw', drawObject);
             this.drawRemote(drawObject);
             this.lastX = x;

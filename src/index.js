@@ -71,7 +71,7 @@ function drawRemote(remoteDrawObject) {
         context2D.beginPath();
         context2D.strokeStyle = remoteDrawObject.color;
         context2D.lineJoin = 'round';
-        context2D.lineWidth = size;
+        context2D.lineWidth = remoteDrawObject.size;
         context2D.moveTo(remoteDrawObject.lastX, remoteDrawObject.lastY);
         context2D.lineTo(remoteDrawObject.x, remoteDrawObject.y);
         context2D.closePath();
@@ -90,6 +90,7 @@ function draw (x, y) {
         drawObject.y = y;
         drawObject.color = color;
         drawObject.room = room;
+        drawObject.size = size;
         socket.emit('draw', drawObject);
         drawRemote(drawObject);
         lastX = x;
