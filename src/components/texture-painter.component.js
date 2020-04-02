@@ -30,6 +30,8 @@ AFRAME.registerComponent('texture-painter', {
         this.id = Math.floor(Math.random() * 100000000);
         this.color = this.data.color;
         this.size = 10;
+        this.background = "#EEF8FD";
+        this.clearing = false;
 
         this.el.sceneEl.addEventListener('camera-set-active', this.cameraSetActive.bind(this));
         this.el.sceneEl.addEventListener( 'mousemove', this.onMouseMove.bind(this), false );
@@ -74,30 +76,17 @@ AFRAME.registerComponent('texture-painter', {
         this._parentTexture = [];
 
         this._canvas = document.createElement( "canvas" );
-        this._canvas.width = this._canvas.height = 1024;
+        this._canvas.width = 1500;
+        this._canvas.height = 1000;
         this._context2D = this._canvas.getContext( "2d" );
     
         this.parentTexture.image = this._canvas;
-        
-        this._background = document.createElement( "img" );
-        this._background.addEventListener( "load", function () {
-    
-            this._canvas.width = 1000 * 1.5;
-            this._canvas.height = 1000;
-    
-            if ( ! this._context2D ) return;
-        
-            this._context2D.clearRect( 0, 0, this._canvas.width, this._canvas.height );
 
-            // Background.
-            var ptrn = this._context2D.createPattern(this._background, 'repeat'); // Create a pattern with this image, and set it to "repeat".
-            this._context2D.fillStyle = ptrn;
-            this._context2D.fillRect(0, 0, this._canvas.width, this._canvas.height); 
-            this.parentTexture.needsUpdate = true;
-    
-        }.bind(this), false );
-        this._background.crossOrigin = '';
-        this._background.src = require("./whiteboard_pattern.jpg").default;
+        // draw background
+        this._context2D.fillStyle = this.background;
+        this._context2D.fillRect(0, 0, this._canvas.width, this._canvas.height); 
+
+        this.parentTexture.needsUpdate = true;
     
         socket.on('remoteDraw', (remoteDrawObject) => {
             if (remoteDrawObject.id != this.id) {
@@ -113,6 +102,9 @@ AFRAME.registerComponent('texture-painter', {
         if (remoteDrawObject.lastX != null && remoteDrawObject.lastY != null) {            
             this._context2D.beginPath();
             this._context2D.strokeStyle = remoteDrawObject.color;
+            if (remoteDrawObject.clearing) {
+                this._context2D.strokeStyle = this.background;
+            }
             this._context2D.lineJoin = 'round';
             this._context2D.lineWidth = remoteDrawObject.size;
             this._context2D.moveTo(remoteDrawObject.lastX, remoteDrawObject.lastY);
@@ -157,6 +149,7 @@ AFRAME.registerComponent('texture-painter', {
             drawObject.color = this.color;
             drawObject.room = room;
             drawObject.size = this.size;
+            drawObject.clearing = this.clearing;
             socket.emit('draw', drawObject);
             this.drawRemote(drawObject);
             this.lastX = x;
