@@ -26,8 +26,10 @@ const socket = io();
 let id = Math.floor(Math.random() * 100000000);
 let lastX = null;
 let lastY = null;
+let background = "#EEF8FD";
 let color = "#000000";
 let size = 10;
+let clearing = false;
 
 const canvasWidth = 1500;
 const canvasHeight = 1000;
@@ -36,7 +38,9 @@ const canvas = document.querySelector("#canvas");
 canvas.width = canvasWidth;
 canvas.height = canvasHeight;
 const context2D = canvas.getContext( "2d" );
-context2D.fillStyle = '#EEF8FD';
+
+// draw background
+context2D.fillStyle = background;
 context2D.fillRect(0, 0, canvas.width, canvas.height); 
 
 socket.on('remoteDraw', (remoteDrawObject) => {
@@ -57,6 +61,9 @@ function drawRemote(remoteDrawObject) {
     if (remoteDrawObject.lastX != null && remoteDrawObject.lastY != null) {            
         context2D.beginPath();
         context2D.strokeStyle = remoteDrawObject.color;
+        if (remoteDrawObject.clearing) {
+            context2D.strokeStyle = background;
+        }
         context2D.lineJoin = 'round';
         context2D.lineWidth = remoteDrawObject.size;
         context2D.moveTo(remoteDrawObject.lastX, remoteDrawObject.lastY);
@@ -78,6 +85,7 @@ function draw (x, y) {
         drawObject.color = color;
         drawObject.room = room;
         drawObject.size = size;
+        drawObject.clearing = clearing;
         socket.emit('draw', drawObject);
         drawRemote(drawObject);
         lastX = x;
@@ -151,6 +159,12 @@ const brushSize = document.querySelector("#brush-size");
 
 brushSize.addEventListener("change", (evt) => {
     size = evt.target.value;
+}, false);
+
+const eraser = document.querySelector("#eraser");
+
+eraser.addEventListener("change", (evt) => {
+    clearing = evt.target.checked;
 }, false);
 
 window.addEventListener('resize', onResize)
