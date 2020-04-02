@@ -156,9 +156,9 @@ brushSize.addEventListener("change", (evt) => {
 window.addEventListener('resize', onResize)
 
 function onResize() {
-    canvas.style.width = "100%";
+    canvas.style.width = "94%";
     const height = canvas.clientWidth / 1.5;
-    if (height > window.innerHeight) {
+    if (height > window.innerHeight * 0.9) {
         canvas.style.height = window.innerHeight - 100 + "px";
         canvas.style.width = canvas.clientHeight / 0.66 + "px";
     } else {
