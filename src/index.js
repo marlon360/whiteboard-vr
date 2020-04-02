@@ -33,24 +33,11 @@ const canvasWidth = 1500;
 const canvasHeight = 1000;
 
 const canvas = document.querySelector("#canvas");
+canvas.width = canvasWidth;
+canvas.height = canvasHeight;
 const context2D = canvas.getContext( "2d" );
-const img = document.createElement( "img" );
-img.addEventListener( "load", function () {
-
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
-
-    if ( ! context2D ) return;
-
-    context2D.clearRect( 0, 0, canvas.width, canvas.height );
-
-    var ptrn = context2D.createPattern(img, 'repeat'); // Create a pattern with this image, and set it to "repeat".
-    context2D.fillStyle = ptrn;
-    context2D.fillRect(0, 0, canvas.width, canvas.height); 
-
-}, false );
-img.crossOrigin = '';
-img.src = require("./components/whiteboard_pattern.jpg").default;
+context2D.fillStyle = '#EEF8FD';
+context2D.fillRect(0, 0, canvas.width, canvas.height); 
 
 socket.on('remoteDraw', (remoteDrawObject) => {
     if (remoteDrawObject.id != id) {
@@ -166,7 +153,9 @@ brushSize.addEventListener("change", (evt) => {
     size = evt.target.value;
 }, false);
 
-window.addEventListener('resize', evt => {
+window.addEventListener('resize', onResize)
+
+function onResize() {
     canvas.style.width = "100%";
     const height = canvas.clientWidth / 1.5;
     if (height > window.innerHeight) {
@@ -175,8 +164,9 @@ window.addEventListener('resize', evt => {
     } else {
         canvas.style.height = canvas.clientWidth / 1.5 + "px";
     }
-})
+}
 
+onResize()
 
 let joinRoom = document.getElementById('join-room');
 joinRoom.addEventListener('click', () => {

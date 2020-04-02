@@ -1,7 +1,9 @@
 canvas {
-    margin: auto;
+    margin: 20px auto;
     width: 100%;
     display: block;
+    box-shadow: 0 0 0 12px #7D868A,  0 5px 38px 0 rgba(116,116,116,0.50);
+    border-radius: 10px;
 }
 .toolbar {
     position: fixed;
