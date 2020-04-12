@@ -1,5 +1,5 @@
 
-AFRAME.registerComponent('color-picker', {
+AFRAME.registerComponent('size-smaller', {
     schema: {
         color: {
             type: 'color',
@@ -25,12 +25,12 @@ AFRAME.registerComponent('color-picker', {
                 });
             }
             if (this.texturePainter) {
-                this.texturePainter.setAttribute('texture-painter', {
-                    color: this.data.color
-                });
-                this.texturePainter.setAttribute('texture-painter', {
-                    clearing: 'false'
-                });
+                //this.texturePainter.setAttribute('texture-painter', {
+                //    color: this.data.color
+                //});
+                //this.texturePainter.setAttribute('texture-painter', {
+                //    clearing: 'false'
+                //});
             }
             
         });

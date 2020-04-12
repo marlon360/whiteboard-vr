@@ -23,6 +23,10 @@ AFRAME.registerComponent('texture-painter', {
         color: {
             type: "color",
             default: "black"
+        },
+        clearing: {
+            type: "boolean",
+            default: "false"
         }
     },
     init: function () {
@@ -117,6 +121,7 @@ AFRAME.registerComponent('texture-painter', {
     },
     update: function() {
         this.color = this.data.color;
+        this.clearing = this.data.clearing;
     },
     tick: function () {
         if (!this.raycasterObj) { return; }  // Not intersecting.
