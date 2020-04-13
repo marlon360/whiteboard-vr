@@ -21,6 +21,9 @@ io.on('connection', (socket) => {
   socket.on('draw', function (obj) {
     io.emit('remoteDraw', obj, { for: 'everyone' });
   });
+  socket.on('eraseAll', function (obj) {
+    io.emit('remoteEraseAll', obj, { for: 'everyone' });
+  });
 });
 
 http.listen(port, () => {

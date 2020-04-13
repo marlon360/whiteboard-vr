@@ -1,9 +1,13 @@
 
-AFRAME.registerComponent('color-picker', {
+AFRAME.registerComponent('eraser-picker', {
     schema: {
         color: {
             type: 'color',
-            default: 'black'
+            default: 'pink'
+        },
+        clearing: {
+            type: 'boolean',
+            default: true
         }
     },
     init: function () {
@@ -19,6 +23,7 @@ AFRAME.registerComponent('color-picker', {
             this.raycasterObj.setAttribute('line', {
                 color: this.data.color
             });
+            this.data.clearing = 'true';
             if (this.intersectionVisual) {
                 this.intersectionVisual.setAttribute('intersection-visual', {
                     color: this.data.color
@@ -26,10 +31,7 @@ AFRAME.registerComponent('color-picker', {
             }
             if (this.texturePainter) {
                 this.texturePainter.setAttribute('texture-painter', {
-                    color: this.data.color
-                });
-                this.texturePainter.setAttribute('texture-painter', {
-                    clearing: 'false'
+                    clearing: this.data.clearing
                 });
             }
             

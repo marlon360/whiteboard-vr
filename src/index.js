@@ -49,10 +49,24 @@ socket.on('remoteDraw', (remoteDrawObject) => {
     }
 });
 
+socket.on('remoteEraseAll', (remoteEraseAllObject) => {
+    if (remoteEraseAllObject.id != id) {
+        eraseAllRemote(remoteEraseAllObject);
+    }
+});
+
 
 canvas.addEventListener('mousemove', onMouseMove);
 canvas.addEventListener('mousedown', onMouseDown);
 canvas.addEventListener('mouseup', onMouseUp);
+
+function eraseAllRemote(eraseAllRemoteObject) {
+    if (room != eraseAllRemoteObject.room) {
+        return;
+    }
+    context2D.fillStyle = background;
+    context2D.fillRect(0, 0, canvas.width, canvas.height);     
+}
 
 function drawRemote(remoteDrawObject) {
     if (room != remoteDrawObject.room) {
@@ -181,6 +195,15 @@ function onResize() {
 }
 
 onResize()
+
+let eraseAll = document.getElementById('erase-all');
+eraseAll.addEventListener('click', () => {
+    var eraseAllObject= {};
+    eraseAllObject.id = id;
+    eraseAllObject.room = room;
+    socket.emit('eraseAll', eraseAllObject);
+    eraseAllRemote(eraseAllObject);
+})
 
 let joinRoom = document.getElementById('join-room');
 joinRoom.addEventListener('click', () => {

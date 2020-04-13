@@ -1,14 +1,13 @@
 
-AFRAME.registerComponent('color-picker', {
+AFRAME.registerComponent('erase-all', {
     schema: {
         color: {
             type: 'color',
-            default: 'black'
+            default: 'red'
         }
     },
     init: function () {
 
-        this.intersectionVisual = document.querySelector("[intersection-visual]");
         this.texturePainter = document.querySelector("[texture-painter]");
 
         this.el.setAttribute('material', {
@@ -16,23 +15,25 @@ AFRAME.registerComponent('color-picker', {
         })
         this.el.addEventListener('raycaster-intersected', evt => {
             this.raycasterObj = evt.detail.el;   
-            this.raycasterObj.setAttribute('line', {
-                color: this.data.color
-            });
-            if (this.intersectionVisual) {
-                this.intersectionVisual.setAttribute('intersection-visual', {
-                    color: this.data.color
-                });
-            }
             if (this.texturePainter) {
                 this.texturePainter.setAttribute('texture-painter', {
-                    color: this.data.color
+                    clearAll: true
                 });
+                this.el.setAttribute('material', {
+                    color: 'pink'
+                })
+            }
+        });
+        this.el.addEventListener('raycaster-intersected-cleared', evt => {
+            this.raycasterObj = null;
+            if (this.texturePainter) {
                 this.texturePainter.setAttribute('texture-painter', {
-                    clearing: 'false'
+                        clearAll: false
                 });
             }
-            
+            this.el.setAttribute('material', {
+                color: this.data.color
+            })
         });
     }
 
