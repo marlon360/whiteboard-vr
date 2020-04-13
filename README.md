@@ -40,9 +40,10 @@ Try it yourself: [https://whiteboard-vr.herokuapp.com](https://whiteboard-vr.her
 ## Roadmap
 
 - send current draw state if a new user joins
-- change brush size in VR
+- ~~change brush size in VR~~
 - undo/redo
-- erase
+- ~~erase~~
+- polish UI for brush size and eraser in VR and 2D
 - audio chat
 - display number of people in a room
 - display user names
