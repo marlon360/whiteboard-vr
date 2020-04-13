@@ -196,6 +196,12 @@ function onResize() {
 
 onResize()
 
+let saveBoard = document.getElementById('save-board');
+saveBoard.addEventListener('click', () => {
+    document.getElementById("save-board").href = document.getElementById("canvas").toDataURL();
+    document.getElementById("save-board").download = "whiteboard.png";
+})
+
 let eraseAll = document.getElementById('erase-all');
 eraseAll.addEventListener('click', () => {
     var eraseAllObject= {};
