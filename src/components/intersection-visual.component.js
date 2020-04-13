@@ -19,15 +19,18 @@ AFRAME.registerComponent('intersection-visual', {
             this.mesh.position.set(0, -1, 0);
         });
 
-        this.geometry = new THREE.SphereBufferGeometry(0.0008 * this.data.size);
+        this.geometry = new THREE.SphereBufferGeometry(0.0005 * this.data.size);
         this.material = new THREE.MeshBasicMaterial({color: this.data.color, opacity: 0.5, transparent: true});
         this.mesh = new THREE.Mesh(this.geometry, this.material);
         this.el.sceneEl.object3D.add(this.mesh);
 
     },
     update: function() {
-        this.geometry.radius = 0.0008 * this.data.size;
-        this.material.color = new THREE.Color(this.data.color);
+        this.el.sceneEl.object3D.remove(this.mesh);
+        this.geometry = new THREE.SphereBufferGeometry(0.0005 * this.data.size);
+        this.material = new THREE.MeshBasicMaterial({color: this.data.color, opacity: 0.5, transparent: true});
+        this.mesh = new THREE.Mesh(this.geometry, this.material);
+        this.el.sceneEl.object3D.add(this.mesh);
     },
     tick: function () {
         if (!this.raycasterObj) { return; }  // Not intersecting.

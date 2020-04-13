@@ -26,14 +26,22 @@ AFRAME.registerComponent('texture-painter', {
         },
         clearing: {
             type: "boolean",
-            default: "false"
+            default: false
+        },
+        clearAll: {
+            type: "boolean",
+            default: false
+        },
+        size: {
+            type: "int",
+            default: 10
         }
     },
     init: function () {
 
         this.id = Math.floor(Math.random() * 100000000);
         this.color = this.data.color;
-        this.size = 10;
+        this.size = this.data.size;
         this.background = "#EEF8FD";
         this.clearing = false;
 
@@ -97,6 +105,12 @@ AFRAME.registerComponent('texture-painter', {
                 this.drawRemote(remoteDrawObject);
             }
         });
+        
+        socket.on('remoteEraseAll', (remoteEraseAllObject) => {
+            if (remoteEraseAllObject.id != this.id) {
+                this.eraseAllRemote(remoteEraseAllObject);
+            }
+        });
 
     },
     drawRemote: function(remoteDrawObject) {
@@ -119,9 +133,21 @@ AFRAME.registerComponent('texture-painter', {
             this.parentTexture.needsUpdate = true;
         }
     },
+    eraseAllRemote: function(remoteEraseAllObject) {
+        if (room != remoteEraseAllObject.room) {
+            return;
+        }
+        this._context2D.fillStyle = this.background;
+        this._context2D.fillRect(0, 0, this._canvas.width, this._canvas.height); 
+        this.parentTexture.needsUpdate = true;
+    },
     update: function() {
         this.color = this.data.color;
+        this.size = this.data.size;
         this.clearing = this.data.clearing;
+        if (this.data.clearAll) {
+            this.eraseAll();
+        }
     },
     tick: function () {
         if (!this.raycasterObj) { return; }  // Not intersecting.
@@ -142,6 +168,13 @@ AFRAME.registerComponent('texture-painter', {
     },
     cameraSetActive: function() {
         this.camera = this.el.sceneEl.camera;
+    },
+    eraseAll: function () {
+        var eraseAllObject = {};
+        eraseAllObject.room = room;
+        eraseAllObject.id = this.id;
+        socket.emit('eraseAll', eraseAllObject);
+        this.eraseAllRemote(eraseAllObject);
     },
     _draw: function (x, y) {
         if (this.lastX != null && this.lastY != null) {

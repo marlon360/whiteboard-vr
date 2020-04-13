@@ -7,7 +7,7 @@ AFRAME.registerComponent('eraser-picker', {
         },
         clearing: {
             type: 'boolean',
-            default: 'true'
+            default: true
         }
     },
     init: function () {

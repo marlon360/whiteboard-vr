@@ -3,7 +3,7 @@
     <title>Whiteboard VR</title>
   </head>
   <body>
-    <a-scene debug="false" inspector shadow="type: pcfsoft" renderer="antialias: true">
+    <a-scene debug="false" shadow="type: pcfsoft" renderer="antialias: true">
       <a-entity environment="groundTexture: none; grid: 1x1; gridColor: #111"></a-entity>
 
       <a-entity position="0 0.3 0">
@@ -13,12 +13,12 @@
         <a-box material="color: #FFF; roughness: 0.4; metalness: 0.3" position="0 0.5 -0.62" scale="1.7 0.15 0.05"></a-box>
         <a-box material="color: #CCC; roughness: 0.4; metalness: 0.3" position="0 0.42 -0.54" scale="1.7 0.02 0.2"></a-box>
 
-        <a-sphere class="hittable" size-smaller="color: white" position="-0.8 0.55 -0.52" radius="0.05" scale="1 1 0.3">
-          <a-text value="-" color="black" position="-0.024 0.01 0.05" width="2"></a-text>
+        <a-sphere class="hittable" size-smaller="color: white" position="0 1.53 -0.52" radius="0.05" scale="1 1 0.3">
+            <a-text value="-" color="black" position="-0.024 0.01 0.05" width="2"></a-text>
         </a-sphere>
-        <a-circle radius="0.010" position="-0.82 0.64 -0.55" material="color: black"></a-circle>
-        <a-sphere class="hittable" size-bigger="color: white" position="-0.8 0.75 -0.52" radius="0.05" scale="1 1 0.3">
-          <a-text value="+" color="black" position="-0.0345 0.0 0.05" width="2"></a-text>
+        
+        <a-sphere class="hittable" size-bigger="color: white" position="0.1 1.53 -0.52" radius="0.05" scale="1 1 0.3">
+            <a-text value="+" color="black" position="-0.0345 0.0 0.05" width="2"></a-text>
         </a-sphere>
 
         <a-cylinder class="hittable" color-picker="color: black" position="-0.6 0.5 -0.52" height="0.1" radius="0.05"></a-cylinder>
@@ -31,6 +31,9 @@
         
         <a-text value="Eraser" color="black" position="0.72 0.6 -0.47" width="1.2"></a-text>
         <a-box class="hittable" eraser-picker material="color: pink; roughness: 0.7; metalness: 0.1" position="0.8 0.5 -0.52" scale="0.1 0.1 0.1"></a-box>
+        
+        <a-text value="Erase All" color="red" position="0.72 0.9 -0.47" width="1.2"></a-text>
+        <a-box class="hittable" erase-all material="color: red; roughness: 0.1; metalness: 0.7" position="0.8 0.8 -0.52" scale="0.05 0.05 0.05"></a-box>
 
         <a-entity position="-0.8 1.65 -0.6" room-number></a-entity>
 
