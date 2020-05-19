@@ -169,6 +169,20 @@ AFRAME.registerComponent('texture-painter', {
     cameraSetActive: function() {
         this.camera = this.el.sceneEl.camera;
     },
+    disableLookControls: function() {
+        if (this.camera.el) {
+            this.camera.el.setAttribute('look-controls', {
+                enabled: false
+            })
+        }
+    },
+    enableLookControls: function() {
+        if (this.camera.el) {
+            this.camera.el.setAttribute('look-controls', {
+                enabled: true
+            })
+        }
+    },
     eraseAll: function () {
         var eraseAllObject = {};
         eraseAllObject.room = room;
@@ -222,6 +236,8 @@ AFRAME.registerComponent('texture-painter', {
 
         if ( intersects.length > 0 && intersects[ 0 ].uv ) {
 
+            this.disableLookControls();
+
             var uv = intersects[ 0 ].uv;
             intersects[ 0 ].object.material.map.transformUv( uv );
 
@@ -234,6 +250,8 @@ AFRAME.registerComponent('texture-painter', {
         //evt.preventDefault();
         this.lastX = null;
         this.lastY = null;
+
+        this.enableLookControls();
     },
 
     getMousePosition: function ( dom, x, y ) {
