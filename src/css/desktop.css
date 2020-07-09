@@ -13,8 +13,9 @@ canvas {
     padding: 10px;
     background: rgba(236, 236, 236, 0.5);
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
 }
 /* Smartphones (portrait) ----------- */
 @media only screen and (max-width : 450px) {
