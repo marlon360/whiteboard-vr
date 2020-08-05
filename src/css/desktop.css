@@ -46,6 +46,7 @@ button, a.button {
     border-radius: 10px;
     text-align: center;
     margin: 0 10px;
+    cursor: pointer;
 }
 button:hover, a:hover {
     border: solid orange 2px;
@@ -71,4 +72,85 @@ a#vr-button:hover {
 body{
     padding: 0;
     margin: 0;
+}
+
+.overlay {
+    z-index: 2;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 2em;
+    font-family: sans-serif;
+}
+.overlay-inner {
+    background: white;
+    padding: 3em 3em 2em 3em;
+    border-radius: 20px;
+    max-width: 800px;
+    box-sizing: border-box;
+    max-height: calc(100% - 2em);
+    overflow: auto;
+    margin: auto;
+}
+.overlay-inner h1 {
+    margin-top: 0;
+    margin-bottom: 40px;
+}
+.overlay-inner p {
+    line-height: 25px;
+}
+.sponsor-icons {
+    display: flex;
+    align-items: center;
+}
+.sponsor-icons > div {
+    margin-right: 10px;
+}
+.overlay-inner .start {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+.overlay-inner .start button {
+    font-size: 18px;
+    background: rgb(3, 181, 148);
+    color: white;
+    border: 0;
+    padding: 1em 2em;
+}
+.overlay-inner .start button:hover {
+    background: rgb(5, 124, 102);
+}
+
+@media only screen and (max-width: 600px) {
+    .overlay {
+        padding: 1em;
+    }
+    .overlay-inner {
+        padding: 2em 2em 1em 2em;
+    }
+    .overlay-inner h1 {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+    .overlay-inner p {
+        font-size: 16px;
+        line-height: 20px;
+    }
+    .sponsor-icons {
+        flex-direction: column;
+    }
+    .sponsor-icons > div {
+        margin-bottom: 10px;
+    }
+    .overlay-inner .start {
+        justify-content: center;
+    }
+}
+
+.hidden {
+    display: none;
 }

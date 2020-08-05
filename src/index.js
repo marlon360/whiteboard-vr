@@ -221,3 +221,14 @@ joinRoom.addEventListener('click', () => {
         window.location.href = "index.html?room="+enteredRoom;
       }
 })
+
+const overlay = document.querySelector(".overlay");
+const startButton = document.querySelector("#start-button");
+startButton.addEventListener('click', () => {
+    overlay.classList.add("hidden");
+});
+overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+        overlay.classList.add("hidden");
+    };
+});
